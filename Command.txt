@@ -1,0 +1,7 @@
+cd client
+npm run dev
+press ctrl + click the link to open the client
+
+cd server
+npm run dev
+

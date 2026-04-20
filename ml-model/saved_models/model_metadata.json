@@ -1,0 +1,241 @@
+{
+  "feature_cols": [
+    "Year",
+    "State_UT_Name_enc",
+    "Region_enc",
+    "Zone_enc",
+    "Crime_Category_enc",
+    "Development_Index_enc",
+    "Population_Lakhs",
+    "Area_SqKm",
+    "IPC_Crimes",
+    "SLL_Crimes",
+    "Crimes_Against_Women",
+    "Rape_Cases",
+    "Kidnapping_Cases",
+    "Dowry_Deaths",
+    "Domestic_Violence",
+    "Cyber_Crimes",
+    "Murder_Sec302",
+    "Attempt_Murder",
+    "Robbery_Dacoity",
+    "Chargesheeting_Rate_Pct",
+    "Conviction_Rate_Pct",
+    "Police_Strength",
+    "Pct_Change_vs_PrevYear"
+  ],
+  "target": "Total_Cognizable_Crimes",
+  "label_encoders": {
+    "State_UT_Name": {
+      "classes": [
+        "Andaman & Nicobar",
+        "Andhra Pradesh",
+        "Arunachal Pradesh",
+        "Assam",
+        "Bihar",
+        "Chandigarh",
+        "Chhattisgarh",
+        "D&NH and D&D",
+        "Delhi",
+        "Goa",
+        "Gujarat",
+        "Haryana",
+        "Himachal Pradesh",
+        "Hyderabad Metro",
+        "Jammu & Kashmir",
+        "Jharkhand",
+        "Karnataka",
+        "Kerala",
+        "Ladakh",
+        "Lakshadweep",
+        "Madhya Pradesh",
+        "Maharashtra",
+        "Manipur",
+        "Meghalaya",
+        "Mizoram",
+        "NCT Delhi (Rural)",
+        "Nagaland",
+        "Odisha",
+        "Puducherry",
+        "Punjab",
+        "Rajasthan",
+        "Sikkim",
+        "Tamil Nadu",
+        "Telangana",
+        "Tripura",
+        "Uttar Pradesh",
+        "Uttarakhand",
+        "West Bengal"
+      ],
+      "mapping": {
+        "Andaman & Nicobar": 0,
+        "Andhra Pradesh": 1,
+        "Arunachal Pradesh": 2,
+        "Assam": 3,
+        "Bihar": 4,
+        "Chandigarh": 5,
+        "Chhattisgarh": 6,
+        "D&NH and D&D": 7,
+        "Delhi": 8,
+        "Goa": 9,
+        "Gujarat": 10,
+        "Haryana": 11,
+        "Himachal Pradesh": 12,
+        "Hyderabad Metro": 13,
+        "Jammu & Kashmir": 14,
+        "Jharkhand": 15,
+        "Karnataka": 16,
+        "Kerala": 17,
+        "Ladakh": 18,
+        "Lakshadweep": 19,
+        "Madhya Pradesh": 20,
+        "Maharashtra": 21,
+        "Manipur": 22,
+        "Meghalaya": 23,
+        "Mizoram": 24,
+        "NCT Delhi (Rural)": 25,
+        "Nagaland": 26,
+        "Odisha": 27,
+        "Puducherry": 28,
+        "Punjab": 29,
+        "Rajasthan": 30,
+        "Sikkim": 31,
+        "Tamil Nadu": 32,
+        "Telangana": 33,
+        "Tripura": 34,
+        "Uttar Pradesh": 35,
+        "Uttarakhand": 36,
+        "West Bengal": 37
+      }
+    },
+    "Region": {
+      "classes": [
+        "Central",
+        "East",
+        "North",
+        "North-East",
+        "South",
+        "West"
+      ],
+      "mapping": {
+        "Central": 0,
+        "East": 1,
+        "North": 2,
+        "North-East": 3,
+        "South": 4,
+        "West": 5
+      }
+    },
+    "State_or_UT": {
+      "classes": [
+        "State",
+        "UT"
+      ],
+      "mapping": {
+        "State": 0,
+        "UT": 1
+      }
+    },
+    "Zone": {
+      "classes": [
+        "Central",
+        "Eastern",
+        "Island",
+        "Northern",
+        "Southern",
+        "Western"
+      ],
+      "mapping": {
+        "Central": 0,
+        "Eastern": 1,
+        "Island": 2,
+        "Northern": 3,
+        "Southern": 4,
+        "Western": 5
+      }
+    },
+    "Crime_Category": {
+      "classes": [
+        "High",
+        "Low",
+        "Moderate",
+        "Very High"
+      ],
+      "mapping": {
+        "High": 0,
+        "Low": 1,
+        "Moderate": 2,
+        "Very High": 3
+      }
+    },
+    "Development_Index": {
+      "classes": [
+        "High",
+        "Low",
+        "Medium"
+      ],
+      "mapping": {
+        "High": 0,
+        "Low": 1,
+        "Medium": 2
+      }
+    },
+    "Police_Zone_Grade": {
+      "classes": [
+        "A",
+        "A+",
+        "B",
+        "C"
+      ],
+      "mapping": {
+        "A": 0,
+        "A+": 1,
+        "B": 2,
+        "C": 3
+      }
+    }
+  },
+  "models": {
+    "random_forest": {
+      "r2": 0.9996,
+      "mae": 426.39,
+      "rmse": 1069.12
+    },
+    "linear_regression": {
+      "r2": 1.0,
+      "mae": 0.0,
+      "rmse": 0.0
+    }
+  },
+  "feature_importance": {
+    "IPC_Crimes": 0.974448,
+    "SLL_Crimes": 0.019272,
+    "Dowry_Deaths": 0.00117,
+    "Robbery_Dacoity": 0.0009,
+    "Kidnapping_Cases": 0.000871,
+    "Domestic_Violence": 0.000808,
+    "Attempt_Murder": 0.000803,
+    "Murder_Sec302": 0.000542,
+    "Rape_Cases": 0.000496,
+    "Crimes_Against_Women": 0.000453,
+    "Population_Lakhs": 9.7e-05,
+    "Cyber_Crimes": 2.5e-05,
+    "Conviction_Rate_Pct": 2.4e-05,
+    "Police_Strength": 2.4e-05,
+    "Pct_Change_vs_PrevYear": 1.7e-05,
+    "Chargesheeting_Rate_Pct": 1.5e-05,
+    "Year": 1.3e-05,
+    "Area_SqKm": 9e-06,
+    "State_UT_Name_enc": 5e-06,
+    "Region_enc": 4e-06,
+    "Zone_enc": 2e-06,
+    "Development_Index_enc": 2e-06,
+    "Crime_Category_enc": 0.0
+  },
+  "train_size": 1216,
+  "test_size": 304,
+  "dataset_shape": [
+    1520,
+    34
+  ]
+}

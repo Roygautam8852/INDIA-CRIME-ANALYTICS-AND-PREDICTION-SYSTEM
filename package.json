@@ -1,0 +1,14 @@
+{
+  "name": "india-crime-analytics",
+  "version": "1.0.0",
+  "description": "Unified system for India Crime Analytics & Prediction",
+  "scripts": {
+    "dev:server": "cd server && npm run dev",
+    "dev:client": "cd client && npm run dev",
+    "dev:ml": "python ml-model/predict_api.py",
+    "dev": "concurrently \"npm run dev:server\" \"npm run dev:client\" \"npm run dev:ml\""
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}
