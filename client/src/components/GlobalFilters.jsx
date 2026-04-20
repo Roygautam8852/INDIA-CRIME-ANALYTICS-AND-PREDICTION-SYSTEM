@@ -1,15 +1,37 @@
+import { useEffect } from "react";
 import { useFilters } from "../context/FilterContext";
 import { useQuery } from "@tanstack/react-query";
 import { fetchFilters } from "../api/crimeApi";
 
 export default function GlobalFilters() {
-  const { 
-    selectedYear, setSelectedYear, 
-    selectedState, setSelectedState, 
+  const {
+    selectedYear,   setSelectedYear,
+    selectedState,  setSelectedState,
     selectedRegion, setSelectedRegion,
-    selectedZone, setSelectedZone
+    selectedZone,   setSelectedZone,
   } = useFilters();
-  const { data } = useQuery({ queryKey: ["filters"], queryFn: fetchFilters, staleTime: Infinity });
+
+  const { data } = useQuery({
+    queryKey: ["filters"],
+    queryFn: fetchFilters,
+    staleTime: Infinity,
+  });
+
+  // When a state is selected, auto-set its Region & Zone from the stateMap
+  useEffect(() => {
+    if (selectedState && data?.stateMap) {
+      const info = data.stateMap[selectedState];
+      if (info) {
+        setSelectedRegion(info.region || "");
+        setSelectedZone(info.zone || "");
+      }
+    }
+    // If state is cleared, also clear region/zone
+    if (!selectedState) {
+      setSelectedRegion("");
+      setSelectedZone("");
+    }
+  }, [selectedState, data?.stateMap]);
 
   const hasActive = selectedYear || selectedState || selectedRegion || selectedZone;
 
@@ -19,6 +41,9 @@ export default function GlobalFilters() {
     setSelectedRegion("");
     setSelectedZone("");
   };
+
+  // Determine if region/zone are locked (controlled by state selection)
+  const isLocked = !!selectedState;
 
   return (
     <div className="flex flex-wrap items-center gap-3">
@@ -38,7 +63,7 @@ export default function GlobalFilters() {
         ))}
       </select>
 
-      {/* State */}
+      {/* State – drives Region & Zone */}
       <select
         value={selectedState}
         onChange={(e) => setSelectedState(e.target.value)}
@@ -50,11 +75,15 @@ export default function GlobalFilters() {
         ))}
       </select>
 
-      {/* Region */}
+      {/* Region – auto-set & locked when State is selected */}
       <select
         value={selectedRegion}
         onChange={(e) => setSelectedRegion(e.target.value)}
-        className="input-field w-auto min-w-[130px] text-[11px] font-bold uppercase tracking-wider"
+        disabled={isLocked}
+        title={isLocked ? "Region is auto-set from the selected state" : ""}
+        className={`input-field w-auto min-w-[130px] text-[11px] font-bold uppercase tracking-wider transition-opacity ${
+          isLocked ? "opacity-60 cursor-not-allowed" : ""
+        }`}
       >
         <option value="">Region</option>
         {(data?.regions || []).map((r) => (
@@ -62,11 +91,15 @@ export default function GlobalFilters() {
         ))}
       </select>
 
-      {/* Zone */}
+      {/* Zone – auto-set & locked when State is selected */}
       <select
         value={selectedZone}
         onChange={(e) => setSelectedZone(e.target.value)}
-        className="input-field w-auto min-w-[130px] text-[11px] font-bold uppercase tracking-wider"
+        disabled={isLocked}
+        title={isLocked ? "Zone is auto-set from the selected state" : ""}
+        className={`input-field w-auto min-w-[130px] text-[11px] font-bold uppercase tracking-wider transition-opacity ${
+          isLocked ? "opacity-60 cursor-not-allowed" : ""
+        }`}
       >
         <option value="">Zone</option>
         {(data?.zones || []).map((z) => (
@@ -81,6 +114,13 @@ export default function GlobalFilters() {
         >
           Reset
         </button>
+      )}
+
+      {/* Hint when state is selected */}
+      {isLocked && (
+        <span className="text-zinc-600 text-[9px] uppercase tracking-widest font-bold">
+          Region &amp; Zone auto-matched
+        </span>
       )}
     </div>
   );

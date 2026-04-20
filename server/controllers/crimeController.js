@@ -263,13 +263,29 @@ const getOverview = async (req, res) => {
 // ─── GET /api/filters ────────────────────────────────────────────────────────
 const getFilters = async (req, res) => {
   try {
-    const [years, states, regions, zones, categories] = await Promise.all([
+    const [years, states, regions, zones, categories, stateMapping] = await Promise.all([
       Crime.distinct("Year"),
       Crime.distinct("State_UT_Name"),
       Crime.distinct("Region"),
       Crime.distinct("Zone"),
       Crime.distinct("Crime_Category"),
+      Crime.aggregate([
+        {
+          $group: {
+            _id: "$State_UT_Name",
+            region: { $first: "$Region" },
+            zone: { $first: "$Zone" },
+          },
+        },
+        { $sort: { _id: 1 } },
+      ]),
     ]);
+
+    // Build a lookup map: { "Bihar": { region: "East", zone: "Eastern" }, ... }
+    const stateMap = {};
+    stateMapping.forEach(({ _id, region, zone }) => {
+      stateMap[_id] = { region, zone };
+    });
 
     res.json({
       success: true,
@@ -278,6 +294,7 @@ const getFilters = async (req, res) => {
       regions: regions.sort(),
       zones: zones.sort(),
       categories: categories.sort(),
+      stateMap,
     });
   } catch (err) {
     res.status(500).json({ success: false, error: err.message });
