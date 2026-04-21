@@ -1,0 +1,391 @@
+
+================================================================================
+         INDIA CRIME ANALYTICS AND PREDICTION SYSTEM
+         TECHNOLOGY STACK AND IMPLEMENTATION DOCUMENT
+================================================================================
+Prepared : April 2026
+Project  : Crime Pattern Prediction System
+Directory: d:\CRIME_PREDICTOR
+================================================================================
+
+
+================================================================================
+1. TECHNOLOGY STACK OVERVIEW
+================================================================================
+
+The project follows a 3-tier full-stack architecture:
+
+  +---------------------------+
+  |   FRONTEND (Client)       |   React 19 + Vite + TailwindCSS
+  +---------------------------+
+              |
+  +---------------------------+
+  |   BACKEND (Server)        |   Node.js + Express.js + MongoDB
+  +---------------------------+
+              |
+  +---------------------------+
+  |   ML SERVICE (Python)     |   Flask + scikit-learn + pandas
+  +---------------------------+
+
+
+--------------------------------------------------------------------------------
+1.1  FRONTEND TECHNOLOGIES
+--------------------------------------------------------------------------------
+
+Framework       : React 19.2.4
+Build Tool      : Vite 8.0.1
+Styling         : TailwindCSS 3.4.19 + PostCSS + Autoprefixer
+Routing         : React Router DOM v7.13.2
+HTTP Client     : Axios 1.14.0
+Data Fetching   : TanStack React Query v5.95.2
+Charts/Graphs   : Recharts 3.8.1
+Icons           : Lucide React 1.7.0
+Notifications   : React Hot Toast 2.6.0
+Linting         : ESLint 9.39.4
+
+  Key Frontend Libraries:
+  ┌────────────────────────┬─────────────┬────────────────────────────────────┐
+  │ Library                │ Version     │ Purpose                            │
+  ├────────────────────────┼─────────────┼────────────────────────────────────┤
+  │ react                  │ ^19.2.4     │ Core UI framework                  │
+  │ react-dom              │ ^19.2.4     │ DOM rendering                      │
+  │ react-router-dom       │ ^7.13.2     │ Client-side routing                │
+  │ @tanstack/react-query  │ ^5.95.2     │ Server-state management & caching  │
+  │ axios                  │ ^1.14.0     │ HTTP API requests                  │
+  │ recharts               │ ^3.8.1      │ Data visualization & charts        │
+  │ lucide-react           │ ^1.7.0      │ SVG icon library                   │
+  │ react-hot-toast        │ ^2.6.0      │ Toast notifications                │
+  │ tailwindcss            │ ^3.4.19     │ Utility-first CSS framework        │
+  │ vite                   │ ^8.0.1      │ Fast bundler & dev server          │
+  └────────────────────────┴─────────────┴────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+1.2  BACKEND TECHNOLOGIES
+--------------------------------------------------------------------------------
+
+Runtime         : Node.js (CommonJS modules)
+Framework       : Express.js 4.18.2
+Database        : MongoDB (via Mongoose ODM 8.0.3)
+Authentication  : dotenv 16.3.1 (env-based config)
+Logging         : Morgan 1.10.0
+Caching         : node-cache 5.1.2 (in-memory)
+CORS            : cors 2.8.5
+Excel Parsing   : xlsx 0.18.5 (for dataset seeding)
+ML Bridge       : axios 1.6.0 (HTTP calls to Python Flask API)
+
+  Key Backend Libraries:
+  ┌────────────────────────┬─────────────┬────────────────────────────────────┐
+  │ Library                │ Version     │ Purpose                            │
+  ├────────────────────────┼─────────────┼────────────────────────────────────┤
+  │ express                │ ^4.18.2     │ REST API server framework          │
+  │ mongoose               │ ^8.0.3      │ MongoDB ORM/ODM                    │
+  │ cors                   │ ^2.8.5      │ Cross-Origin Resource Sharing      │
+  │ morgan                 │ ^1.10.0     │ HTTP request logger                │
+  │ dotenv                 │ ^16.3.1     │ Environment variable management    │
+  │ node-cache             │ ^5.1.2      │ In-memory API response caching     │
+  │ axios                  │ ^1.6.0      │ Proxy requests to ML Flask API     │
+  │ xlsx                   │ ^0.18.5     │ Excel dataset parser for seeding   │
+  └────────────────────────┴─────────────┴────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+1.3  MACHINE LEARNING TECHNOLOGIES
+--------------------------------------------------------------------------------
+
+Language        : Python 3.x
+API Framework   : Flask + Flask-CORS
+ML Library      : scikit-learn
+  - RandomForestRegressor (200 estimators, max_depth=15)
+  - LinearRegression
+  - LabelEncoder, StandardScaler
+Data Libraries  : pandas, numpy
+Model Serializer: joblib
+Data Source     : crime_dataset_of_india.xlsx (1500+ rows)
+
+  Python ML Libraries:
+  ┌────────────────────────┬─────────────────────────────────────────────────┐
+  │ Library                │ Purpose                                         │
+  ├────────────────────────┼─────────────────────────────────────────────────┤
+  │ flask                  │ REST API server for ML model predictions        │
+  │ flask-cors             │ Cross-origin support for Flask API              │
+  │ scikit-learn           │ ML algorithms (Random Forest, Linear Reg.)      │
+  │ pandas                 │ Data loading, cleaning, and transformation      │
+  │ numpy                  │ Numerical computations and array handling       │
+  │ joblib                 │ Model serialization (.pkl format)               │
+  └────────────────────────┴─────────────────────────────────────────────────┘
+
+--------------------------------------------------------------------------------
+1.4  DATABASE
+--------------------------------------------------------------------------------
+
+Database        : MongoDB
+ODM             : Mongoose 8.0.3
+Default URI     : mongodb://localhost:27017/crime_predictor
+Connection Opts : serverSelectionTimeoutMS = 10000
+                  socketTimeoutMS          = 45000
+
+--------------------------------------------------------------------------------
+1.5  DATASET
+--------------------------------------------------------------------------------
+
+File            : crime_dataset_of_india.xlsx
+Size            : ~272 KB
+Rows            : 1500+
+Key Columns     :
+  - State_UT_Name, Region, Zone, Year
+  - Total_Cognizable_Crimes, IPC_Crimes, SLL_Crimes
+  - Crimes_Against_Women, Rape_Cases, Kidnapping_Cases
+  - Dowry_Deaths, Domestic_Violence, Cyber_Crimes
+  - Murder_Sec302, Attempt_Murder, Robbery_Dacoity
+  - Chargesheeting_Rate_Pct, Conviction_Rate_Pct
+  - Police_Strength, Population_Lakhs, Area_SqKm
+  - Development_Index, Police_Zone_Grade
+  - Pct_Change_vs_PrevYear
+
+
+================================================================================
+2. PROJECT STRUCTURE & IMPLEMENTATION
+================================================================================
+
+CRIME_PREDICTOR/
+│
+├── client/                          ← React Frontend Application
+│   ├── src/
+│   │   ├── pages/
+│   │   │   ├── Dashboard.jsx        ← Main analytics dashboard overview
+│   │   │   ├── CrimeTrends.jsx      ← Temporal crime trend analysis
+│   │   │   ├── StateAnalysis.jsx    ← State-wise crime breakdown
+│   │   │   ├── WomenSafety.jsx      ← Women safety crime analytics
+│   │   │   └── Prediction.jsx       ← ML model prediction interface
+│   │   ├── components/
+│   │   │   └── LoadingSpinner.jsx   ← Reusable loading component
+│   │   ├── api/                     ← Axios API service functions
+│   │   ├── context/                 ← React context (global filters/state)
+│   │   ├── hooks/                   ← Custom React hooks
+│   │   ├── utils/                   ← Utility/helper functions
+│   │   ├── App.jsx                  ← Root component with routing
+│   │   ├── main.jsx                 ← React entry point
+│   │   ├── index.css                ← Global CSS + TailwindCSS imports
+│   │   └── App.css                  ← App-level styles
+│   ├── tailwind.config.js           ← TailwindCSS configuration
+│   ├── vite.config.js               ← Vite bundler configuration
+│   ├── postcss.config.js            ← PostCSS plugins config
+│   ├── index.html                   ← Root HTML template
+│   └── package.json                 ← Frontend dependencies
+│
+├── server/                          ← Node.js + Express Backend API
+│   ├── controllers/
+│   │   ├── crimeController.js       ← Crime data query & aggregation logic
+│   │   └── predictionController.js  ← Proxies ML prediction requests
+│   ├── routes/
+│   │   └── api.js                   ← All REST API route definitions
+│   ├── models/                      ← Mongoose schema/model definitions
+│   ├── middleware/
+│   │   └── seeder.js                ← Reads Excel, seeds MongoDB
+│   ├── index.js                     ← Express server entry point
+│   └── package.json                 ← Backend dependencies
+│
+├── ml-model/                        ← Python Machine Learning Service
+│   ├── train_model.py               ← Model training pipeline script
+│   ├── predict_api.py               ← Flask REST API for predictions
+│   └── saved_models/
+│       ├── random_forest_model.pkl  ← Trained Random Forest model
+│       ├── linear_regression_model.pkl ← Trained Linear Regression model
+│       ├── scaler.pkl               ← StandardScaler for LR preprocessing
+│       └── model_metadata.json      ← Feature cols, metrics, encoders
+│
+├── crime_dataset_of_india.xlsx      ← Raw dataset (1500+ rows)
+├── dataset_info.json                ← Dataset column descriptions
+├── package.json                     ← Root package (monorepo scripts)
+├── Command.txt                      ← Startup/run commands reference
+└── README.md                        ← Project documentation
+
+
+================================================================================
+3. IMPLEMENTATION DETAILS
+================================================================================
+
+--------------------------------------------------------------------------------
+3.1  FRONTEND IMPLEMENTATION
+--------------------------------------------------------------------------------
+
+Architecture:
+  - Single Page Application (SPA) using React 19 with Vite as build tool
+  - Client-side routing via React Router DOM v7
+  - Global state managed through React Context API (filters: Year, State, Region, Zone)
+  - Server-state and API caching managed by TanStack React Query
+  - Cascading filter system: selecting a State auto-populates Region & Zone
+
+Pages Implemented:
+  1. Dashboard       - Summary KPIs, top states, yearly overview charts
+  2. Crime Trends    - Year-over-year temporal line/bar charts
+  3. State Analysis  - State-wise comparison & ranking
+  4. Women Safety    - Crimes against women breakdown (Rape, Kidnapping, Dowry, DV)
+  5. Prediction      - ML prediction form with Random Forest / Linear Regression choice
+
+Charting:
+  - Recharts library for AreaChart, BarChart, LineChart, PieChart, RadarChart
+  - Responsive containers adapt to window size
+
+Styling:
+  - TailwindCSS utility classes with dark/light mode support
+  - CSS variables for theme tokens in index.css
+  - Premium dark theme (true black background) as default
+
+--------------------------------------------------------------------------------
+3.2  BACKEND IMPLEMENTATION
+--------------------------------------------------------------------------------
+
+Server:
+  - Express.js REST API running on PORT 5000
+  - Connected to MongoDB via Mongoose
+  - Morgan middleware for HTTP request logging
+  - node-cache for caching aggregation query results
+
+API Routes (base: /api):
+  ┌──────────────────────────────┬──────────────────────────────────────────┐
+  │ Route                        │ Description                              │
+  ├──────────────────────────────┼──────────────────────────────────────────┤
+  │ GET  /api/crimes             │ Filtered crime data with pagination      │
+  │ GET  /api/crimes/kpis        │ Summary KPIs (total, avg, trends)        │
+  │ GET  /api/crimes/trends      │ Year-by-year crime trend aggregation     │
+  │ GET  /api/crimes/states      │ State-wise aggregated crime totals       │
+  │ GET  /api/crimes/women       │ Women safety-specific crime breakdown    │
+  │ GET  /api/crimes/filters     │ Available filter values (states, etc.)   │
+  │ POST /api/predict            │ Proxy → Flask ML API /api/predict        │
+  │ POST /api/predict/forecast   │ Proxy → Flask ML API /api/predict/forecast│
+  │ GET  /health                 │ Server + DB health check                 │
+  └──────────────────────────────┴──────────────────────────────────────────┘
+
+Data Seeding:
+  - middleware/seeder.js reads crime_dataset_of_india.xlsx using the xlsx library
+  - Parses and transforms rows into Mongoose documents
+  - Seeds the MongoDB 'crimes' collection (run with: npm run seed)
+
+Filtering Logic:
+  - All crime endpoints support query params: year, state, region, zone
+  - Cascading filters: state selection restricts valid region and zone values
+  - MongoDB aggregation pipelines used for grouped/metric computation
+
+--------------------------------------------------------------------------------
+3.3  MACHINE LEARNING IMPLEMENTATION
+--------------------------------------------------------------------------------
+
+Training Pipeline (train_model.py):
+  Step 1 - Load Data       : Read crime_dataset_of_india.xlsx via pandas
+  Step 2 - Data Cleaning   : Fill missing numerics with median, categoricals with mode
+  Step 3 - Feature Eng.    : LabelEncode categorical columns (State, Region, Zone, etc.)
+  Step 4 - Feature Select  : 23 feature columns selected (see full list below)
+  Step 5 - Train/Test Split: 80% train / 20% test (random_state=42)
+  Step 6 - Train Models    : Random Forest + Linear Regression (with StandardScaler)
+  Step 7 - Save Artifacts  : .pkl models + model_metadata.json saved to saved_models/
+
+Features Used (23 total):
+  Year, State_UT_Name_enc, Region_enc, Zone_enc, Crime_Category_enc,
+  Development_Index_enc, Population_Lakhs, Area_SqKm, IPC_Crimes,
+  SLL_Crimes, Crimes_Against_Women, Rape_Cases, Kidnapping_Cases,
+  Dowry_Deaths, Domestic_Violence, Cyber_Crimes, Murder_Sec302,
+  Attempt_Murder, Robbery_Dacoity, Chargesheeting_Rate_Pct,
+  Conviction_Rate_Pct, Police_Strength, Pct_Change_vs_PrevYear
+
+Target Variable:
+  Total_Cognizable_Crimes
+
+Model Configurations:
+  ┌──────────────────────┬─────────────────────────────────────────────────┐
+  │ Model                │ Configuration                                   │
+  ├──────────────────────┼─────────────────────────────────────────────────┤
+  │ Random Forest        │ n_estimators=200, max_depth=15,                 │
+  │                      │ min_samples_split=4, min_samples_leaf=2,        │
+  │                      │ n_jobs=-1, random_state=42                      │
+  ├──────────────────────┼─────────────────────────────────────────────────┤
+  │ Linear Regression    │ Default sklearn params,                         │
+  │                      │ features scaled with StandardScaler             │
+  └──────────────────────┴─────────────────────────────────────────────────┘
+
+Evaluation Metrics:
+  - R² Score (coefficient of determination)
+  - MAE (Mean Absolute Error)
+  - RMSE (Root Mean Square Error)
+
+Prediction API (predict_api.py):
+  - Flask app running on PORT 5001
+  - CORS enabled for all origins
+
+  Endpoints:
+  ┌────────────────────────────────┬──────────────────────────────────────┐
+  │ Route                          │ Description                          │
+  ├────────────────────────────────┼──────────────────────────────────────┤
+  │ GET  /health                   │ API health + loaded model names      │
+  │ GET  /api/metrics              │ Model metrics & feature importances  │
+  │ POST /api/predict              │ Single crime count prediction        │
+  │ POST /api/predict/forecast     │ Multi-year crime forecast            │
+  └────────────────────────────────┴──────────────────────────────────────┘
+
+
+================================================================================
+4. PORT ALLOCATION
+================================================================================
+
+  ┌─────────────────────────────┬──────┬───────────────────────────────────┐
+  │ Service                     │ Port │ URL                               │
+  ├─────────────────────────────┼──────┼───────────────────────────────────┤
+  │ React Frontend (Vite Dev)   │ 5173 │ http://localhost:5173             │
+  │ Express Backend API         │ 5000 │ http://localhost:5000/api         │
+  │ Flask ML Prediction API     │ 5001 │ http://localhost:5001/api/predict │
+  │ MongoDB                     │ 27017│ mongodb://localhost:27017         │
+  └─────────────────────────────┴──────┴───────────────────────────────────┘
+
+
+================================================================================
+5. HOW TO RUN THE PROJECT
+================================================================================
+
+  Step 1: Start MongoDB
+  ─────────────────────
+    mongod
+
+  Step 2: Seed the Database (first time only)
+  ────────────────────────────────────────────
+    cd server
+    npm run seed
+
+  Step 3: Start Backend API
+  ──────────────────────────
+    cd server
+    npm run dev
+    → Runs on http://localhost:5000
+
+  Step 4: Train ML Model (first time only)
+  ─────────────────────────────────────────
+    cd ml-model
+    python train_model.py
+
+  Step 5: Start Flask ML API
+  ───────────────────────────
+    cd ml-model
+    python predict_api.py
+    → Runs on http://localhost:5001
+
+  Step 6: Start Frontend
+  ───────────────────────
+    cd client
+    npm run dev
+    → Runs on http://localhost:5173
+
+
+================================================================================
+6. ENVIRONMENT VARIABLES
+================================================================================
+
+  client/.env:
+    VITE_API_URL=http://localhost:5000
+
+  server/.env:
+    PORT=5000
+    MONGODB_URI=mongodb://localhost:27017/crime_predictor
+    ML_API_URL=http://localhost:5001
+
+
+================================================================================
+END OF DOCUMENT
+================================================================================
