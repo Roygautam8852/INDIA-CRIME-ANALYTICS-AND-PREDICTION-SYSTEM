@@ -5,3 +5,5 @@ press ctrl + click the link to open the client
 cd server
 npm run dev
 
+cd ml-model
+python predict_api.py
